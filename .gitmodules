@@ -1,0 +1,16 @@
+[submodule "CA"]
+	branch = main
+	path = CA
+	url = git@github.com:SIRS20-21-G42/CA.git
+[submodule "AuthServer"]
+	branch = main
+	path = AuthServer
+	url = git@github.com:SIRS20-21-G42/AuthServer.git
+[submodule "MobileApp"]
+	branch = main
+	path = MobileApp
+	url = git@github.com:SIRS20-21-G42/MobileApp.git
+[submodule "WebApp"]
+	branch = main
+	path = WebApp
+	url = git@github.com:SIRS20-21-G42/WebApp.git
