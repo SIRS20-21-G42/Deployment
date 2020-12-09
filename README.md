@@ -5,7 +5,7 @@ To run the CA, WebApp and Auth Server modules, all we need is `docker` and `dock
 
 To build the Mobile App (SIRSApp), we have 2 options:
 1. Use Android Studio (and download everything from there)
-   - We need to select Android SDK 8.0 (API level 26) and download it (through Android Studio)
+   - We need to select at least Android SDK 8.0 (API level 26) and download it (through Android Studio)
    - Optionally we can also download and install the Android Emulator
 2. Manually compile the apk
    In this case we are going to need:
@@ -14,6 +14,48 @@ To build the Mobile App (SIRSApp), we have 2 options:
        - adb
        - Android Emulator (optional - can be replaced with a VM with Android x86)
 
+## Certificate/Key Distribution
+When running this environment, we suppose that all keys and certificates are already distributed in this way:
+- Web App has CA's (root) certificate, private key, certificate signed by the CA and Auth Server's certificate
+  - Directory: `WebApp/facefive/app/auth/`
+    - CA's certificate filename:          `CA.cert`
+    - Private key's filename:             `FaceFive.key`
+    - Own certificate's filename:         `FaceFive.cert`
+    - Auth Server's certificate filename: `AUTH.cert`
+
+- Auth Server has CA's (root) certificate, private key, certificate signed by the CA and Web App's certificate
+  - Directory: `Auth Server/auth/app/`
+    - CA's certificate filename:     `CA.cert`
+    - Private key's filename:        `AUTH.key`
+    - Own certificate's filename:    `AUTH.cert`
+    - Web App's certificatefilename: `FaceFive.cert`
+
+- CA has its own certificate, private key and the certificates it signed
+  - Directory: `CA/files/CA/`
+    - Private key's filename: `priv.key`
+  - Directory: `CA/files/PUBLIC/`
+    - Own certificate's filename: `CA.cert`
+    - Public key's filename (optional): `pub.key`
+  - Directory: `CA/files/CERTIFICATES/`
+      Contains all signed certificates, with filename `<org>.cert` where `<org>` is the Organization Name in the CSR
+
+- Mobile App has CA's (root) certificate and Auth Server's certificate
+  - Directory: `MobileApp/app/src/main/res/raw/`
+    - CA's certificate filename:          `ca.crt`
+    - Auth Server's certificate filename: `auth.crt`
+
+By default, CA's private key has a password which is `1234`. Since this is a weak password, it is only suitable for
+demonstration purposes, so, we are able to change it by editing the environment variable `CA_PASS` inside the `Dockerfile`
+
+Although we suppose this keys/certificates are already generated, we can generate them everytime the environment is
+started (the environment only generates what it needs). The CA has persistence, so if the environment is run 2 times
+in a row without cleaning at least the Web App and Auth Server's certificates, it won't work. We need to either
+clean the aforementioned certificates or put them (along with the private keys) in the needed folders (by acessing
+the containers and getting the files).
+
+The Mobile App doesn't get the certificates it needs automatically, so we need to start the environment and get both
+the CA and Auth Server's certificate (we can get them in by accessing the path mentioned above, where CA stores the
+signed certificates) and place them in the path mentioned above.
 
 ## How to build
 ### Mobile App
