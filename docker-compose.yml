@@ -1,0 +1,112 @@
+version: "3.2"
+services:
+  # WebApp
+  webapp_app:
+    build: ./WebApp/facefive
+    container_name: 'webapp'
+    environment:
+      DB_HOST: 'webapp_db'
+    depends_on:
+      - ca
+      - webapp_db
+    ports:
+      - 8080:5000
+    restart: always
+    networks:
+      auth_frontend:
+        ipv4_address: 10.74.0.100
+      ca_net:
+      web_db:
+
+  webapp_db:
+    image: mysql:5.7
+    container_name: 'webapp_db'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'facefive'
+      MYSQL_PASSWORD: 'facefivepass'
+    restart: always
+    networks:
+      - web_db
+    volumes:
+      - ./WebApp/db:/docker-entrypoint-initdb.d/
+
+  # Auth Server
+  authserver_app:
+    build: ./AuthServer/auth
+    container_name: 'authserver'
+    environment:
+      DB_HOST: 'authserver_db'
+      PYTHONUNBUFFERED: 1
+    depends_on:
+      - ca
+      - authserver_db
+    ports:
+      - 1337:1337
+    restart: always
+    networks:
+      auth_backend:
+        ipv4_address: 10.13.37.5
+      auth_frontend:
+        ipv4_address: 10.74.0.5
+      auth_db:
+      ca_net:
+
+  authserver_db:
+    image: mysql:5.7
+    container_name: 'authserver_db'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'auth'
+      MYSQL_PASSWORD: 'authpass'
+    restart: always
+    networks:
+      - auth_db
+    volumes:
+      - ./AuthServer/db:/docker-entrypoint-initdb.d/
+
+  # Certificate Authority
+  ca:
+    build: ./CA
+    container_name: 'ca'
+    #environment:
+      #CA_PASS: 'Sup35St50ngP4ssw05d'
+    ports:
+      - 8081:5000
+    restart: always
+    networks:
+      ca_net:
+        ipv4_address: 10.45.0.5
+    volumes:
+      - ./CA/files:/ca_files
+
+networks:
+  auth_frontend:
+    driver: bridge
+    name: 'auth_frontend'
+    ipam:
+      config:
+        - subnet:  10.74.0.0/24
+          gateway: 10.74.0.1
+
+  auth_backend:
+    driver: bridge
+    name: 'auth_backend'
+    ipam:
+      config:
+        - subnet:  10.13.37.0/24
+          gateway: 10.13.37.1
+
+  ca_net:
+    driver: bridge
+    name: 'ca_net'
+    ipam:
+      config:
+        - subnet: 10.45.0.0/24
+          gateway: 10.45.0.1
+
+  auth_db:
+    name: 'auth_db'
+
+  web_db:
+    name: 'web_db'
