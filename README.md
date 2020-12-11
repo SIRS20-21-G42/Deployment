@@ -122,3 +122,5 @@ No need to install
 
 
 The environment is now setup and ready to run, if no errors occurred
+
+**P.S:** the file named `upload.sh` can be used to push images (QRCodes) to the VM/Emulator to be used in the application
