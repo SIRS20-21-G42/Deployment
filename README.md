@@ -56,9 +56,9 @@ in the `resources` folder, with the names mentioned above (except for the app, t
 
 Although we suppose this keys/certificates are already generated, we can generate them everytime the environment is
 started (the environment only generates what it needs). The CA has persistence, so if the environment is run 2 times
-in a row without cleaning at least the Web App and Auth Server's certificates, it won't work. We need to either
-clean the aforementioned certificates or put them (along with the private keys) in the needed folders (by acessing
-the containers and getting the files).
+in a row (removing only the containers between the "rounds", not the CA volume) without removing at least the Web App
+and Auth Server's certificates, it won't work. We need to either clean the aforementioned certificates or put them (along
+with the private keys) in the needed folders (by acessing the containers and getting the files).
 
 The Mobile App doesn't get the certificates it needs automatically, so we need to start the environment and get both
 the CA and Auth Server's certificate (we can get them in by accessing the path mentioned above, where CA stores the
