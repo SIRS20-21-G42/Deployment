@@ -120,6 +120,7 @@ and then to install run:
 ### CA, Auth Server and Web App
 No need to install
 
+To initialize/reset the web app, go to address `https://localhost:8080/init`
 
 The environment is now setup and ready to run, if no errors occurred
 
