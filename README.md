@@ -124,3 +124,61 @@ No need to install
 The environment is now setup and ready to run, if no errors occurred
 
 **P.S:** the file named `upload.sh` can be used to push images (QRCodes) to the VM/Emulator to be used in the application
+
+## Functionalities
+
+### Registration
+
+Registration in the mobile application
+![Mobile Application Registration](img/appRegistration.png)
+
+
+### Authentication
+
+Authentication in the mobile application
+![Mobile Application Authentication](img/appAuthentication.png)
+
+Authentication in the web application
+![Web Application Authentication](img/webAuthentication.png)
+
+
+### Authorization
+
+Authorization in the mobile application:
+
+- Main view
+![Mobile Application Authorization](img/appAuthorization.png)
+
+- Decline confirmation
+![Mobile Application Authorization Decline](img/appAuthorizationConfirm.png)
+
+- QRCode confirmation
+![Mobile Application Authorization QRCode](img/appAuthorizationQR.png)
+
+Authorization in the web application:
+![Web Application Authorization](img/webAuthorization.png)
+
+
+### Safe Location
+
+Safe location in the mobile application:
+
+- User in safe location
+![Mobile Application Safe Location](img/appLocationSafe.png)
+
+- User in unsafe location
+![Mobile Application Unsafe Location](img/appLocationUnsafe.png)
+
+Safe location in the web application:
+
+- View posts in safe location
+![Web Application Safe Location View Posts](img/webViewSafe.png)
+
+- View posts in unsafe location
+![Web Application Unsafe Location View Posts](img/webViewUnsafe.png)
+
+- Create posts in safe location
+![Web Application Safe Location Create Posts](img/webSafePost.png)
+
+- Create posts in unsafe location
+![Web Application Unsafe Location Create Posts](img/webUnsafePost.png)
